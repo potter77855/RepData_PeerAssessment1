@@ -25,7 +25,8 @@ output:
 * 	        dataset has 17,569 rows (row 1 headings & 17,568 observations)
 
 ### QUESTION #1: What is the R code for reading the assignment dataset?
-```{r RRW2Q1_SCRIPT}
+
+```r
 ## CODE FOR READING IN DATASET FOR ASSIGNMENT
 
 ## FILE FROM ASSIGNMENT WAS DOWNLOADED IN LINK: Activity Monitoring Data
@@ -38,10 +39,47 @@ RRW2DATA <- data.table::fread(input = "activity.csv")
 
 ## RRW2DATA INFORMATION
 dim(RRW2DATA)
-names(RRW2DATA)
-head(RRW2DATA)
-str(RRW2DATA)
+```
 
+```
+## [1] 17568     3
+```
+
+```r
+names(RRW2DATA)
+```
+
+```
+## [1] "steps"    "date"     "interval"
+```
+
+```r
+head(RRW2DATA)
+```
+
+```
+##    steps      date interval
+## 1:    NA 10/1/2012        0
+## 2:    NA 10/1/2012        5
+## 3:    NA 10/1/2012       10
+## 4:    NA 10/1/2012       15
+## 5:    NA 10/1/2012       20
+## 6:    NA 10/1/2012       25
+```
+
+```r
+str(RRW2DATA)
+```
+
+```
+## Classes 'data.table' and 'data.frame':	17568 obs. of  3 variables:
+##  $ steps   : int  NA NA NA NA NA NA NA NA NA NA ...
+##  $ date    : chr  "10/1/2012" "10/1/2012" "10/1/2012" "10/1/2012" ...
+##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
+##  - attr(*, ".internal.selfref")=<externalptr>
+```
+
+```r
 ## GET DATE COLUMN IN YYYY-MM-DD FORMAT
 RRW2DATA$date <- as.Date(RRW2DATA$date,format = "%M/%d/%y")
 
@@ -49,10 +87,20 @@ RRW2DATA$date <- as.Date(RRW2DATA$date,format = "%M/%d/%y")
 NOSTEPS <- sum(is.na(RRW2DATA$steps))
 
 print(paste0("# INTERVALS WITH STEPS = NA : ", NOSTEPS))
+```
 
+```
+## [1] "# INTERVALS WITH STEPS = NA : 2304"
+```
+
+```r
 ## TOTAL # OF STEPS IN DATASET (na VALUES OMITTED)
 TOTALSTEPS <- sum(RRW2DATA$steps, na.rm = TRUE)
 print(paste0("# STEPS REPORTED : ", TOTALSTEPS))
+```
+
+```
+## [1] "# STEPS REPORTED : 570608"
 ```
 ### ANSWER #1: REVIEW OF ACTIVITY FILE
 A) fread of data table ‘activity.csv’
@@ -76,12 +124,33 @@ C) NOTE: activity data set will be read for each question since changes
 ### QUESTION #2: What is total number of steps taken per day?
 * ignore any NA values in data read
 * make plots: 1) total steps / day & 2) count of frequency of total steps / day
-```{r RRW2Q2_SCRIPT}
+
+```r
 ## PLOT: STEPS TAKEN PER DAY
 ## HISTOGRAM: FREQUENCY COUNT OF TOTAL # OF STEPS TAKEN PER DAY IN TIME PERIOD
 ## NOTE: NA VALUE FOR TIME INTERVAL REMOVED TO ALLOW CALCULATION OF STEPS PER DAY 
 
 library(dplyr)
+```
+
+```
+## 
+## Attaching package: 'dplyr'
+```
+
+```
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+```
+
+```
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```r
 setwd("C:/Users/misc/Documents/COURSERA/R PROGRAMMING/RR W2 ASSIGNMENT/")
 
 ## NOTE: ASSIGNMENT FILE DOWNLOADED INTO OWN COMPUTER
@@ -96,7 +165,14 @@ colnames(DAYSTEPS) <- c("DATE","STEPS")
 
 ## PRINTING # STEPS REPORTED
 print(paste0("total # steps in file = ", DAYSTEPS))
+```
 
+```
+## [1] "total # steps in file = c(\"10/1/2012\", \"10/2/2012\", \"10/3/2012\", \"10/4/2012\", \"10/5/2012\", \"10/6/2012\", \"10/7/2012\", \"10/8/2012\", \"10/9/2012\", \"10/10/2012\", \"10/11/2012\", \"10/12/2012\", \"10/13/2012\", \"10/14/2012\", \"10/15/2012\", \"10/16/2012\", \"10/17/2012\", \"10/18/2012\", \"10/19/2012\", \"10/20/2012\", \"10/21/2012\", \"10/22/2012\", \"10/23/2012\", \"10/24/2012\", \"10/25/2012\", \"10/26/2012\", \"10/27/2012\", \"10/28/2012\", \"10/29/2012\", \"10/30/2012\", \"10/31/2012\", \"11/1/2012\", \"11/2/2012\", \"11/3/2012\", \"11/4/2012\", \"11/5/2012\", \"11/6/2012\", \n\"11/7/2012\", \"11/8/2012\", \"11/9/2012\", \"11/10/2012\", \"11/11/2012\", \"11/12/2012\", \"11/13/2012\", \"11/14/2012\", \"11/15/2012\", \"11/16/2012\", \"11/17/2012\", \"11/18/2012\", \"11/19/2012\", \"11/20/2012\", \"11/21/2012\", \"11/22/2012\", \"11/23/2012\", \"11/24/2012\", \"11/25/2012\", \"11/26/2012\", \"11/27/2012\", \"11/28/2012\", \"11/29/2012\", \"11/30/2012\")"
+## [2] "total # steps in file = c(0, 126, 11352, 12116, 13294, 15420, 11015, 0, 12811, 9900, 10304, 17382, 12426, 15098, 10139, 15084, 13452, 10056, 11829, 10395, 8821, 13460, 8918, 8355, 2492, 6778, 10119, 11458, 5018, 9819, 15414, 0, 10600, 10571, 0, 10439, 8334, 12883, 3219, 0, 0, 12608, 10765, 7336, 0, 41, 5441, 14339, 15110, 8841, 4472, 12787, 20427, 21194, 14478, 11834, 11162, 13646, 10183, 7047, 0)"
+```
+
+```r
 DAYSTEPSDF <- data.frame(DAYSTEPS)
 
 library(ggplot2)
@@ -107,12 +183,18 @@ ggplot(DAYSTEPSDF, mapping = aes(y=STEPS,x=DATE)) +
   xlab("DATE") +
   ylab("STEPS") +
   ggtitle("PLOT: TOTAL STEPS BY DATE")   
+```
 
+![](PA1_template_files/figure-html/RRW2Q2_SCRIPT-1.png)<!-- -->
+
+```r
 ##   HISTOGRAM OF TOTAL # STEPS TAKEN EACH DAY (NA OMITTED) COUNT
 hist(DAYSTEPS$STEPS, ylim=c(0,15), breaks=20,
      labels = TRUE, xlab="TOTAL STEPS",ylab="COUNT",
      main="PLOT: TOTAL STEPS COUNT BY DATE")
 ```
+
+![](PA1_template_files/figure-html/RRW2Q2_SCRIPT-2.png)<!-- -->
 
 ### ANSWER #2: OBSERVATIONS FROM PLOTS
 A) From total steps per day plot:
@@ -128,7 +210,8 @@ B) From frequency count plot:
 * calculate median also for comparison
 * NOTE: dataset from assignment shows NA steps for 8 days
 * HENCE: calculation of mean will be using 53 days
-```{r RRW2Q3_SCRIPT}
+
+```r
 ## MEAN & MEDIAN FOR # STEPS TAKEN EACH DAY (NA VALUES OMITTED)
 
 library(dplyr)
@@ -144,77 +227,295 @@ RRW2DATA <- data.table::fread(input = "activity.csv")
 DAYSTEPS <- RRW2DATA %>%
             group_by(date) %>%
             summarise(TOTALSTEPS = sum(steps))
-print(DAYSTEPS, n = 61)
+```
 
+```
+## `summarise()` ungrouping output (override with `.groups` argument)
+```
+
+```r
+print(DAYSTEPS, n = 61)
+```
+
+```
+## # A tibble: 61 x 2
+##    date       TOTALSTEPS
+##    <chr>           <int>
+##  1 10/1/2012          NA
+##  2 10/10/2012       9900
+##  3 10/11/2012      10304
+##  4 10/12/2012      17382
+##  5 10/13/2012      12426
+##  6 10/14/2012      15098
+##  7 10/15/2012      10139
+##  8 10/16/2012      15084
+##  9 10/17/2012      13452
+## 10 10/18/2012      10056
+## 11 10/19/2012      11829
+## 12 10/2/2012         126
+## 13 10/20/2012      10395
+## 14 10/21/2012       8821
+## 15 10/22/2012      13460
+## 16 10/23/2012       8918
+## 17 10/24/2012       8355
+## 18 10/25/2012       2492
+## 19 10/26/2012       6778
+## 20 10/27/2012      10119
+## 21 10/28/2012      11458
+## 22 10/29/2012       5018
+## 23 10/3/2012       11352
+## 24 10/30/2012       9819
+## 25 10/31/2012      15414
+## 26 10/4/2012       12116
+## 27 10/5/2012       13294
+## 28 10/6/2012       15420
+## 29 10/7/2012       11015
+## 30 10/8/2012          NA
+## 31 10/9/2012       12811
+## 32 11/1/2012          NA
+## 33 11/10/2012         NA
+## 34 11/11/2012      12608
+## 35 11/12/2012      10765
+## 36 11/13/2012       7336
+## 37 11/14/2012         NA
+## 38 11/15/2012         41
+## 39 11/16/2012       5441
+## 40 11/17/2012      14339
+## 41 11/18/2012      15110
+## 42 11/19/2012       8841
+## 43 11/2/2012       10600
+## 44 11/20/2012       4472
+## 45 11/21/2012      12787
+## 46 11/22/2012      20427
+## 47 11/23/2012      21194
+## 48 11/24/2012      14478
+## 49 11/25/2012      11834
+## 50 11/26/2012      11162
+## 51 11/27/2012      13646
+## 52 11/28/2012      10183
+## 53 11/29/2012       7047
+## 54 11/3/2012       10571
+## 55 11/30/2012         NA
+## 56 11/4/2012          NA
+## 57 11/5/2012       10439
+## 58 11/6/2012        8334
+## 59 11/7/2012       12883
+## 60 11/8/2012        3219
+## 61 11/9/2012          NA
+```
+
+```r
 ## PRINT # OF DAYS OF OBSERVATIONS
 print(paste0("# DAYS (na INCLUDED) OF OBSERVATIONS = ", nrow(DAYSTEPS)))
+```
 
+```
+## [1] "# DAYS (na INCLUDED) OF OBSERVATIONS = 61"
+```
+
+```r
 ## FIND # OF ROWS WITH NA VALUES FOR STEPS
 AMTNADAYS <- sum(is.na(DAYSTEPS$TOTALSTEPS))
 print(paste0("# DAYS WITH NA OBSERVATIONS = ", AMTNADAYS))
+```
 
+```
+## [1] "# DAYS WITH NA OBSERVATIONS = 8"
+```
+
+```r
 ## CREATE DATASET OF DATES FOR NA STEPS ONLY
 NADAYS <- DAYSTEPS[is.na(DAYSTEPS$TOTALSTEPS), ]
 print(NADAYS, n = AMTNADAYS)
+```
 
+```
+## # A tibble: 8 x 2
+##   date       TOTALSTEPS
+##   <chr>           <int>
+## 1 10/1/2012          NA
+## 2 10/8/2012          NA
+## 3 11/1/2012          NA
+## 4 11/10/2012         NA
+## 5 11/14/2012         NA
+## 6 11/30/2012         NA
+## 7 11/4/2012          NA
+## 8 11/9/2012          NA
+```
+
+```r
 ## GET MEAN WHEN NA VALUES REMOVED IN CALCULATIONS
 STEPSMEAN1 <- mean(DAYSTEPS$TOTALSTEPS, na.rm = TRUE)
 STEPSMEAN1 <- round(STEPSMEAN1, digits = 2)
 print(paste0("MEAN OF FILE WHEN NA VALUES OMITTED: ", STEPSMEAN1))
+```
 
+```
+## [1] "MEAN OF FILE WHEN NA VALUES OMITTED: 10766.19"
+```
+
+```r
 ## GET MEDIAN WHEN NA VALUES REMOVED IN CALCULATIONS
 STEPSMEDIAN1 <- median(DAYSTEPS$TOTALSTEPS, na.rm = TRUE)
 print(paste0("MEDIAN OF FILE WHEN NA VALUES OMITTED: ", STEPSMEDIAN1))
+```
 
+```
+## [1] "MEDIAN OF FILE WHEN NA VALUES OMITTED: 10765"
+```
+
+```r
 ## REMOVE NA VALUES FROM STEPS PER DAY FILE
 DAYSTEPS = filter(DAYSTEPS, TOTALSTEPS != 'NA')
 print(paste0("SHOW FILE WHEN NA VALUES REMOVED: "))
-DAYSTEPS
+```
 
+```
+## [1] "SHOW FILE WHEN NA VALUES REMOVED: "
+```
+
+```r
+DAYSTEPS
+```
+
+```
+## # A tibble: 53 x 2
+##    date       TOTALSTEPS
+##    <chr>           <int>
+##  1 10/10/2012       9900
+##  2 10/11/2012      10304
+##  3 10/12/2012      17382
+##  4 10/13/2012      12426
+##  5 10/14/2012      15098
+##  6 10/15/2012      10139
+##  7 10/16/2012      15084
+##  8 10/17/2012      13452
+##  9 10/18/2012      10056
+## 10 10/19/2012      11829
+## # ... with 43 more rows
+```
+
+```r
 ## PUT FILE IN INCREASING STEPS ORDER TO PREPARE TO FIND FILE MEDIAN
 DAYSTEPS <- DAYSTEPS[order(DAYSTEPS$TOTALSTEPS), ]
 
 ## PRINT FILE MEDIAN WHEN FILE ORDERED BY # OF STEPS
 print(paste0("VERIFY MEDIAN VALUE - 53 DAYS -> 27TH ENTRY IS MIDDLE"))
-print(paste0(DAYSTEPS[27,]))
+```
 
+```
+## [1] "VERIFY MEDIAN VALUE - 53 DAYS -> 27TH ENTRY IS MIDDLE"
+```
+
+```r
+print(paste0(DAYSTEPS[27,]))
+```
+
+```
+## [1] "11/12/2012" "10765"
+```
+
+```r
 ## VERIFY THAT # OF STEPS SAME
 STEPSMADE <- sum(RRW2DATA$steps, na.rm = TRUE)
 print(paste0("STEPS MADE: ", STEPSMADE))
+```
 
+```
+## [1] "STEPS MADE: 570608"
+```
+
+```r
 ## NOTE: ASSIGNMENT FILE DOWNLOADED INTO OWN COMPUTER
 ## RE-READING DATA FOR DOING 0 REPLACEMENT OF NA VALUES
 RRW2DATA <- data.table::fread(input = "activity.csv")
 
 ## CODE TO REPLACE NA VALUES IN DATASET STEPS COLUMN WITH 0  
 library(imputeTS)
+```
+
+```
+## Registered S3 method overwritten by 'quantmod':
+##   method            from
+##   as.zoo.data.frame zoo
+```
+
+```r
 RRW2DATA$steps <- na_replace(RRW2DATA$steps, 0)
 
 ## CALCULATE # OF STEPS TAKEN EACH DAY
 DAYSTEPS <- RRW2DATA %>%
   group_by(date) %>%
   summarise(TOTALSTEPS = sum(steps))
+```
 
+```
+## `summarise()` ungrouping output (override with `.groups` argument)
+```
+
+```r
 colnames(DAYSTEPS) <- c("DATE","TOTALSTEPS")
 
 ## USE TOTAL DAYS OF PERIOD AS 0 REPLACED NA VALUES
 STEPSMEAN2 <- mean(DAYSTEPS$TOTALSTEPS)
 print(paste0("MEAN OF FILE WHEN NA REPLACED BY 0: ", STEPSMEAN2))
+```
 
+```
+## [1] "MEAN OF FILE WHEN NA REPLACED BY 0: 9354.22950819672"
+```
+
+```r
 ## USE TOTAL DAYS OF PERIOD AS 0 REPLACED NA VALUES
 STEPSMEDIAN2 <- median(DAYSTEPS$TOTALSTEPS)
 print(paste0("MEDIAN OF FILE WHEN NA REPLACED BY 0: ", STEPSMEDIAN2))
+```
 
+```
+## [1] "MEDIAN OF FILE WHEN NA REPLACED BY 0: 10395"
+```
+
+```r
 DAYSTEPS <- DAYSTEPS[order(DAYSTEPS$TOTALSTEPS), ]
 print(DAYSTEPS[31, ])
+```
 
+```
+## # A tibble: 1 x 2
+##   DATE       TOTALSTEPS
+##   <chr>           <dbl>
+## 1 10/20/2012      10395
+```
+
+```r
 STEPSTOTAL <- DAYSTEPS$TOTALSTEPS
 sum(STEPSTOTAL)
+```
+
+```
+## [1] 570608
+```
+
+```r
 STEPSTOTAL
+```
 
+```
+##  [1]     0     0     0     0     0     0     0     0    41   126  2492  3219
+## [13]  4472  5018  5441  6778  7047  7336  8334  8355  8821  8841  8918  9819
+## [25]  9900 10056 10119 10139 10183 10304 10395 10439 10571 10600 10765 11015
+## [37] 11162 11352 11458 11829 11834 12116 12426 12608 12787 12811 12883 13294
+## [49] 13452 13460 13646 14339 14478 15084 15098 15110 15414 15420 17382 20427
+## [61] 21194
+```
+
+```r
 NROW(DAYSTEPS)
+```
 
-``` 
+```
+## [1] 61
+```
 ### ANSWER #3: MEAN & MEDIAN 
 A) mean = 10766.19 steps/day
 B) median = 10765 steps/day
@@ -246,7 +547,8 @@ C) recalculation for verification of mean & median calculations:
 ### QUESTION #4: What is the average daily activity pattern?
 1) plot to show average steps taken (y) each day (0 -> 2355) for period (x)
 2) determination of which time 5-minute interval has most steps for day's period  
-```{r RRW2Q4_SCRIPT}
+
+```r
 ##	TIME SERIES PLOT OF AVERAGE (mean) STEPS TAKEN PER TIME INTERVAL (0 -> 2355)
 
 library(dplyr)
@@ -268,7 +570,13 @@ TOTALSTEPS <- sum(TIMESTEPS$STEP, na.rm = FALSE)
 
 ## PRINT TOTAL # OF STEPS MADE
 print(paste0("# OF TOTAL STEPS MADE = ", TOTALSTEPS))
+```
 
+```
+## [1] "# OF TOTAL STEPS MADE = 570608"
+```
+
+```r
 TIMESTEPSDF <- data.frame(TIMESTEPS)
 
 ## ADD COLUMN FOR # of OBSERVATION DAYS
@@ -280,7 +588,13 @@ TIMESTEPSDF <- transform(TIMESTEPSDF, TIMEMEANS = STEPS / OBSERVEDAYS)
 ## CALCULATE TOTAL # OF TIME INTERVAL NEAMS (CHECK STEP)
 RRW2MEANS <- sum(TIMESTEPSDF$TIMEMEANS, na.rm = FALSE)
 print(paste0("# OF INTERVAL TIME MEANS = ", round(RRW2MEANS, digits = 2)))
+```
 
+```
+## [1] "# OF INTERVAL TIME MEANS = 9354.23"
+```
+
+```r
 library(ggplot2)
 ##	TIME SERIES PLOT OF AVERAGE (mean) STEPS TAKEN PER TIME INTERVAL (0 -> 2355)
 ggplot(TIMESTEPSDF, mapping = aes(INTERVAL, TIMEMEANS)) +
@@ -288,11 +602,14 @@ ggplot(TIMESTEPSDF, mapping = aes(INTERVAL, TIMEMEANS)) +
        xlab("TIME INTERVAL: 0 -> 2355") +
        ylab("AVERAGE # OF STEPS") +
        ggtitle("AVERAGE # STEPS PER TIME PERIOD (0 -> 2355)")
-``` 
+```
+
+![](PA1_template_files/figure-html/RRW2Q4_SCRIPT-1.png)<!-- -->
 
 ### ANSWER #4A: DAILY PATTERN
 * Plot shows that 7:30AM to 10AM has most activity
-```{r RRW2Q5_SCRIPT}
+
+```r
 ## 5-minute interval that, on average, contains the maximum number of steps
 
 library(dplyr)
@@ -322,11 +639,19 @@ ggplot(INTERVALSTEPSDF, mapping = aes(INTERVAL,STEPSMEAN)) +
   xlab("INTERVAL") +
   ylab("AVERAGE # OF STEPS") +
   ggtitle("HISTOGRAM: MEAN # STEPS BY DAY TIME INTERVAL (0000 -> 2355)")
+```
 
+![](PA1_template_files/figure-html/RRW2Q5_SCRIPT-1.png)<!-- -->
+
+```r
 ## DATERMINE WHICH TIME INTERVAL (0 -> 2355) HAS MOST STEP & GREATEST MEAN FOR DATA GIVEN
 INTERVALMEANMOST <- INTERVALSTEPS[which.max(INTERVALSTEPS$STEPSMEAN),]$INTERVAL
 INTERVALMEANMOST
-``` 
+```
+
+```
+## [1] 835
+```
 ### ANSWER #4B: DAILY PATTERN
 A) time series plot & histogram plot look the same     
 B) 5-minute interval having most steps: 835 (8:35 AM)
@@ -337,7 +662,8 @@ B) detail what code needed to replace NA with ‘0’ for dataset
 C) compare mean & median results when NA replaced with ‘0’ vs NA omitted
 D) detail impact of imputing missing data on results
 E) create histogram of total steps taken each day after missing values imputed
-```{r RRW2Q6_SCRIPT}
+
+```r
 ## EFFECT OF NA VALUES IN DATASET OMITTED VS CHANGED TO 0
 
 library(dplyr)
@@ -351,30 +677,66 @@ RRW2DATA <- data.table::fread(input = "activity.csv")
 ## CALCULATE # STEPS MADE FOR DATASET
 STEPSMADE <- sum(RRW2DATA$steps, na.rm = TRUE)
 print(paste0("TOTAL STEPS = ", STEPSMADE))
+```
 
+```
+## [1] "TOTAL STEPS = 570608"
+```
+
+```r
 ## SHOW # OF OBSERVATIONS (INTERVAL COUNT) IN DATASET
 OBSERVED <- nrow(RRW2DATA)
 print(paste0("OBSERVATIONS TOTAL: ", OBSERVED))
+```
 
+```
+## [1] "OBSERVATIONS TOTAL: 17568"
+```
+
+```r
 ## FIND # OF INTERVALS WITH NA VALUES
 NOSTEPS <- sum(is.na(RRW2DATA$steps))
 print(paste0("OBSERVATIONS WITH NA: ", NOSTEPS))
+```
 
+```
+## [1] "OBSERVATIONS WITH NA: 2304"
+```
+
+```r
 ## CALCULATE TOTAL # OF STEPS IN DATASET
 DAYSTEPS <- RRW2DATA %>%
   group_by(date) %>%
   summarise(TOTALSTEPS = sum(steps))
+```
 
+```
+## `summarise()` ungrouping output (override with `.groups` argument)
+```
+
+```r
 ## DETERMINE MEAN OF STEPS IN DATASET - NA REMOVED
 STEPSMEAN1 <- mean(DAYSTEPS$TOTALSTEPS, na.rm = TRUE)
 STEPSMEAN1 <- round(STEPSMEAN1, digits = 2)
 print(paste0("MEAN IF NA REMOVED FROM CALCULATION: ", STEPSMEAN1))
+```
 
+```
+## [1] "MEAN IF NA REMOVED FROM CALCULATION: 10766.19"
+```
+
+```r
 ## DETERMINE MEDIAN OF STEPS IN DATASET - NA REMOVED
 STEPSMEDIAN1 <- median(DAYSTEPS$TOTALSTEPS, na.rm = TRUE)
 STEPSMEDIAN1 <- round(STEPSMEDIAN1, digits = 2)
 print(paste0("MEDIAN IF NA REMOVED FROM CALCULATION: ", STEPSMEDIAN1))
+```
 
+```
+## [1] "MEDIAN IF NA REMOVED FROM CALCULATION: 10765"
+```
+
+```r
 ## CODE TO REPLACE NA VALUE WITH 0
 library(imputeTS)
 RRW2DATA$steps <- na_replace(RRW2DATA$steps, 0)
@@ -383,26 +745,88 @@ RRW2DATA$steps <- na_replace(RRW2DATA$steps, 0)
 INTERVALSTEPS <- RRW2DATA %>%
                  group_by(date) %>%
                  summarise(NUMBERSTEPS = sum(steps))
+```
 
+```
+## `summarise()` ungrouping output (override with `.groups` argument)
+```
+
+```r
 ## DETERMINE MEAN OF STEPS IN DATASET - NA REPLACED BY 0
 STEPSMEAN2 <- mean(INTERVALSTEPS$NUMBERSTEPS)
 STEPSMEAN2 <- round(STEPSMEAN2, digits = 2)
 print(paste0("MEAN IF NA CHANGED TO 0 IN CALCULATION: ", STEPSMEAN2))
+```
 
+```
+## [1] "MEAN IF NA CHANGED TO 0 IN CALCULATION: 9354.23"
+```
+
+```r
 ## DETERMINE MEDIAN OF STEPS IN DATASET - NA REPLACED BY 0
 STEPSMEDIAN2 <- median(INTERVALSTEPS$NUMBERSTEPS)
 STEPSMEDIAN2 <- round(STEPSMEDIAN2, digits = 2)
 print(paste0("MEDIAN IF NA CHANGED TO 0 IN CALCULATION: ", STEPSMEDIAN2))
+```
 
+```
+## [1] "MEDIAN IF NA CHANGED TO 0 IN CALCULATION: 10395"
+```
+
+```r
 DAY0 <- filter(INTERVALSTEPS, NUMBERSTEPS == 0)
 DAY0
+```
 
+```
+## # A tibble: 8 x 2
+##   date       NUMBERSTEPS
+##   <chr>            <dbl>
+## 1 10/1/2012            0
+## 2 10/8/2012            0
+## 3 11/1/2012            0
+## 4 11/10/2012           0
+## 5 11/14/2012           0
+## 6 11/30/2012           0
+## 7 11/4/2012            0
+## 8 11/9/2012            0
+```
+
+```r
 DAY999 <- arrange(INTERVALSTEPS, NUMBERSTEPS)
 print(DAY999[8, ])
+```
+
+```
+## # A tibble: 1 x 2
+##   date      NUMBERSTEPS
+##   <chr>           <dbl>
+## 1 11/9/2012           0
+```
+
+```r
 print(DAY999[9, ])
+```
+
+```
+## # A tibble: 1 x 2
+##   date       NUMBERSTEPS
+##   <chr>            <dbl>
+## 1 11/15/2012          41
+```
+
+```r
 print(DAY999[10, ])
-``` 
-```{r RRW2Q7_SCRIPT}
+```
+
+```
+## # A tibble: 1 x 2
+##   date      NUMBERSTEPS
+##   <chr>           <dbl>
+## 1 10/2/2012         126
+```
+
+```r
 ##	HISTOGRAM OF STEPS TAKEN EACH DAY AFTER MISSING VALUES (NA) MADE 0
 
 library(dplyr)
@@ -415,7 +839,14 @@ RRW2DATA <- data.table::fread(input = "activity.csv")
 
 ## FIND COLUMN(S) & COUNT IN EACH COLUMN THAT HAVE NA VALUE ORIGINALLY
 colSums(is.na(RRW2DATA))
+```
 
+```
+##    steps     date interval 
+##     2304        0        0
+```
+
+```r
 ## CODE TO REPLACE NA VALUES IN DATASET STEPS COLUMN WITH 0  
 library("imputeTS")
 RRW2DATA$steps <- na_replace(RRW2DATA$steps, 0)
@@ -435,13 +866,18 @@ ggplot(DAYSTEPSDF, mapping = aes(y=STEPS,x=DATE)) +
   xlab("DATE") +
   ylab("STEPS") +
   ggtitle("DAY TOTAL STEPS BY COUNT (0 -> NA)")   
+```
 
+![](PA1_template_files/figure-html/RRW2Q7_SCRIPT-1.png)<!-- -->
+
+```r
 ## HISTOGRAM: TOTAL # OF STEPS TAKEN EACH DAY (0 -> NA)
 hist(DAYSTEPS$STEPS, ylim=c(0,15), breaks=20,
      labels = TRUE, xlab="TOTAL STEPS", ylab="COUNT",
      main="DAY TOTAL STEPS BY COUNT (0 -> NA)")
+```
 
-``` 
+![](PA1_template_files/figure-html/RRW2Q7_SCRIPT-2.png)<!-- -->
 
 ### ANSWER #5: MISSING VALUES
 A) NOTE: after NA replaced by 0, following 8 dates showing 0 steps
@@ -482,7 +918,8 @@ B) NOTE: code shown below does needed steps to create additional columns:
    1) date day  
    2) date being a weekday or on weekend 
 C)  plots for weekday vs weekend look very similar
-```{r RRW2Q8_SCRIPT}
+
+```r
 ## PANEL PLOT COMPARING AVERAGE # OF STEPS TAKEN PER 5 MINUTE INTERVAL: 
 ##                       WEEKDAYS VS WEEKENDS
 
@@ -507,6 +944,24 @@ RRW2DATA$DAYTYPE <- ifelse(RRW2DATA$WEEKDAY=='Saturday' |
                            RRW2DATA$WEEKDAY=='Sunday',
                            'WEEKEND','WEEKDAY')
 RRW2DATA
+```
+
+```
+##        steps       date interval   YYYYMMDD WEEKDAY DAYTYPE
+##     1:     0  10/1/2012        0 2012-10-01  Monday WEEKDAY
+##     2:     0  10/1/2012        5 2012-10-01  Monday WEEKDAY
+##     3:     0  10/1/2012       10 2012-10-01  Monday WEEKDAY
+##     4:     0  10/1/2012       15 2012-10-01  Monday WEEKDAY
+##     5:     0  10/1/2012       20 2012-10-01  Monday WEEKDAY
+##    ---                                                     
+## 17564:     0 11/30/2012     2335 2012-11-30  Friday WEEKDAY
+## 17565:     0 11/30/2012     2340 2012-11-30  Friday WEEKDAY
+## 17566:     0 11/30/2012     2345 2012-11-30  Friday WEEKDAY
+## 17567:     0 11/30/2012     2350 2012-11-30  Friday WEEKDAY
+## 17568:     0 11/30/2012     2355 2012-11-30  Friday WEEKDAY
+```
+
+```r
 ## NEW TABLE FOR CALCULATED TOTAL STEPS MADE PER TIME INTERVAL (0 -> 2355)
 INTERVALSTEPS <- aggregate(steps~interval+DAYTYPE,
                            data=RRW2DATA,
@@ -528,3 +983,5 @@ ggplot(INTERVALSTEPS, aes(x = time, y = steps)) +
   ylab("STEPS TAKEN") +
   facet_grid(DAYTYPE ~.)
 ```
+
+![](PA1_template_files/figure-html/RRW2Q8_SCRIPT-1.png)<!-- -->
